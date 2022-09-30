@@ -5,7 +5,7 @@ use std::sync::{Arc, Mutex};
 
 use nannou_audio as audio;
 use nannou_audio::Buffer;
-use dsp::{Demangle, FFT, HannWindow, LimitFrequencyRange, Pad, Signal, Subsample, Supersample, ToDBFS};
+use crate::dsp::{Demangle, FFT, HannWindow, LimitFrequencyRange, Pad, Signal, Subsample, Supersample, ToDBFS};
 
 pub struct ForkingRenderer {
     forks: Vec<Box<dyn Fn(&Buffer) + Send>>,
