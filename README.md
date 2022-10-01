@@ -1,23 +1,15 @@
-> **Warning**  
-> **DO NOT USE IF YOU SUFFER FROM EPILEPSY**  
-> A bug in the visualiser causes the screen to flash rapidly when no sound is playing.
-# audio-whiz
-![First-draft of the visualiser, with white bars](https://user-images.githubusercontent.com/52505120/193404038-f23168a5-2793-420b-bd7f-5a7d465391e7.png)
-
-
-
 A Rust-built music visualiser, built as an exercise to practice both the Rust programming language and homegrown digital signal processing.
 
 |DSP Feature|Description|
 |---|---|
-|Pad|Zero-pads the FFT input to a desired buffer size (to make it valid input in the first place)
-|Hann window|Applies the [Hann function](https://en.wikipedia.org/wiki/Hann_function) to an input signal for cleaner FFT results.
+|Pad|Zero-pads the FFT input to a desired buffer size (to make it valid input in the first place)|
+|Hann window|Applies the [Hann function](https://en.wikipedia.org/wiki/Hann_function) to an input signal for cleaner FFT results.|
 |FFT|Performs a [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) on sample data to obtain frequency ranges|
-|Demangle|Takes the FFT output in `[DC, +Freq, -Freq]` format and returns only the positive frequency range.
-|Squish|Squishes the frequency domain to a factor _0 < f < 1_, such that each frequency bin's index is raised to the power of _f_, squishing higher frequencies into a smaller space.
+|Demangle|Takes the FFT output in `[DC, +Freq, -Freq]` format and returns only the positive frequency range.|
+|Squish|Squishes the frequency domain to a factor _0 < f < 1_, such that each frequency bin's index is raised to the power of _f_, squishing higher frequencies into a smaller space.|
 |LimitFrequencyRange|Limits the range of frequencies for FFT output to the given range.|
 |ToDBFS|Converts FFT output from amplitude ranges to [decibels relative to full scale](https://en.wikipedia.org/wiki/DBFS).|
-|Subsample|Subsamples data by a given factor by only taking every `factor`-th element
+|Subsample|Subsamples data by a given factor by only taking every `factor`-th element.|
 |Supersample|Supersamples data using a given interpolation function and supersampling factor.|
 > **Note**  
 > Subsampling and supersampling can be used together to smooth the output signal while retaining scale. Additionally, the Supersample step provides
