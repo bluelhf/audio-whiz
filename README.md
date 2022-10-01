@@ -36,7 +36,7 @@ You can change the song by changing the path in the `model(...)` function in `sr
 ```diff
  fn model(_app: &App) -> Model {
      let manager = AudioManager::new();
--    manager.play(audrey::read::open(Path::new("./music/second_reality.wav"))
+-    manager.play(audrey::read::open(Path::new("./music/the_music_i_like.wav"))
 +    manager.play(audrey::read::open(Path::new("./music/good_music.wav"))
              .expect("failed to read audio")).expect("failed to play audio");
      Model { manager }
