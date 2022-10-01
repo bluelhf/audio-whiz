@@ -5,7 +5,7 @@ use std::sync::{Arc, Mutex};
 
 use nannou_audio as audio;
 use nannou_audio::Buffer;
-use crate::dsp::{Demangle, FFT, HannWindow, LimitFrequencyRange, Pad, Signal, Subsample, Supersample, ToDBFS};
+use crate::dsp::{Squish, Demangle, FFT, HannWindow, LimitFrequencyRange, Pad, Signal, Subsample, Supersample, ToDBFS};
 
 pub struct ForkingRenderer {
     forks: Vec<Box<dyn Fn(&Buffer) + Send>>,
@@ -129,14 +129,15 @@ impl FourierTask {
             Pad::to_size(1024),
             FFT::with_buffer_size(1024),
             Demangle::new(),
-            LimitFrequencyRange::to(20.0..16000.0),
-            Subsample::with_factor(2),
-            Supersample::with_cosine_interpolation(4),
+            LimitFrequencyRange::to(20.0..18000.0),
+            Squish::by(0.9),
+            Subsample::with_factor(4),
+            Supersample::with_cosine_interpolation(2),
             ToDBFS::new()
         ]) {
             Ok(signal) => {
                 let mut output_lock = self.output.lock().expect("failed to obtain output lock");
-                *output_lock = Signal::lerp(output_lock.clone(), signal.clone(), 0.1);
+                *output_lock = Signal::lerp(output_lock.clone(), signal.clone(), 0.13);
             }
             Err(e) => { panic!("{}", e) }
         }
