@@ -14,6 +14,7 @@ A Rust-built music visualiser, built as an exercise to practice both the Rust pr
 |Hann window|Applies the [Hann function](https://en.wikipedia.org/wiki/Hann_function) to an input signal for cleaner FFT results.
 |FFT|Performs a [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) on sample data to obtain frequency ranges|
 |Demangle|Takes the FFT output in `[DC, +Freq, -Freq]` format and returns only the positive frequency range.
+|Squish|Squishes the frequency domain to a factor _0 < f < 1_, such that each frequency bin's index is raised to the power of _f_, squishing higher frequencies into a smaller space.
 |LimitFrequencyRange|Limits the range of frequencies for FFT output to the given range.|
 |ToDBFS|Converts FFT output from amplitude ranges to [decibels relative to full scale](https://en.wikipedia.org/wiki/DBFS).|
 |Subsample|Subsamples data by a given factor by only taking every `factor`-th element

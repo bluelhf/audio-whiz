@@ -377,6 +377,37 @@ impl ProcessingStep for LimitFrequencyRange {
     }
 }
 
+pub struct Squish {
+    factor: f32
+}
+
+impl Squish {
+    pub fn by(factor: f32) -> Box<Self> {
+        box Squish { factor }
+    }
+}
+
+impl ProcessingStep for Squish {
+    fn friendly_name(&self) -> String {
+        "Squish".to_string()
+    }
+
+    fn is_valid_input(&self, _signal: Signal) -> bool {
+        _signal.has_flag(SignalFlag::FrequencyDomain)
+    }
+
+    fn process(&self, signal: Signal) -> Signal {
+        let data = signal.clone().samples();
+        let mut new_data = Vec::with_capacity((data.len() as f32).powf(self.factor).floor() as usize);
+        for i in 0..data.len() {
+            let new_index = (i as f32).powf(self.factor).floor() as usize;
+            new_data.push(data[new_index]);
+        }
+
+        Signal::with(signal, new_data)
+    }
+}
+
 #[derive(Debug)]
 pub struct ProcessingError {
 
