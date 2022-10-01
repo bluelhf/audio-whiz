@@ -1,3 +1,6 @@
+# audio-whiz
+![First-draft of the visualiser, with white bars](https://user-images.githubusercontent.com/52505120/193426144-2f03047c-eec1-47bb-8636-2af7570c3473.png)
+
 A Rust-built music visualiser, built as an exercise to practice both the Rust programming language and homegrown digital signal processing.
 
 |DSP Feature|Description|
