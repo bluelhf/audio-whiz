@@ -3,17 +3,17 @@ https://user-images.githubusercontent.com/52505120/193426671-60e6ef9b-9617-4750-
 
 A Rust-built music visualiser, built as an exercise to practice both the Rust programming language and homegrown digital signal processing.
 
-|DSP Feature|Description|
-|---|---|
-|Pad|Zero-pads the FFT input to a desired buffer size (to make it valid input in the first place)|
-|Hann window|Applies the [Hann function](https://en.wikipedia.org/wiki/Hann_function) to an input signal for cleaner FFT results.|
-|FFT|Performs a [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) on sample data to obtain frequency ranges|
-|Demangle|Takes the FFT output in `[DC, +Freq, -Freq]` format and returns only the positive frequency range.|
-|Squish|Squishes the frequency domain to a factor _0 < f < 1_, such that each frequency bin's index is raised to the power of _f_, squishing higher frequencies into a smaller space.|
-|LimitFrequencyRange|Limits the range of frequencies for FFT output to the given range.|
-|ToDBFS|Converts FFT output from amplitude ranges to [decibels relative to full scale](https://en.wikipedia.org/wiki/DBFS).|
-|Subsample|Subsamples data by a given factor by only taking every `factor`-th element.|
-|Supersample|Supersamples data using a given interpolation function and supersampling factor.|
+| DSP Feature         | Description                                                                                                                         |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Pad                 | Zero-pads the FFT input to a desired buffer size (to make it valid input in the first place)                                        |
+| Hann window         | Applies the [Hann function](https://en.wikipedia.org/wiki/Hann_function) to an input signal for cleaner FFT results.                |
+| FFT                 | Performs a [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) on sample data to obtain frequency ranges |
+| Demangle            | Takes the FFT output in `[DC, +Freq, -Freq]` format and returns only the positive frequency range.                                  |
+| Squish              | Squishes the frequency domain by a factor _0 < f < 1_ by skipping _i * f_ elements after each element at index _i_.                 |
+| LimitFrequencyRange | Limits the range of frequencies for FFT output to the given range.                                                                  |
+| ToDBFS              | Converts FFT output from amplitude ranges to [decibels relative to full scale](https://en.wikipedia.org/wiki/DBFS).                 |
+| Subsample           | Subsamples data by a given factor by only taking every `factor`-th element.                                                         |
+| Supersample         | Supersamples data using a given interpolation function and supersampling factor.                                                    |
 > **Note**  
 > Subsampling and supersampling can be used together to smooth the output signal while retaining scale. Additionally, the Supersample step provides
 > cosine interpolation by default (via `Supersample::with_cosine_interpolation(...)`)

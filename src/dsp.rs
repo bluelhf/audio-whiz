@@ -396,13 +396,11 @@ impl ProcessingStep for Squish {
 
     fn process(&self, signal: Signal) -> Signal {
         let data = signal.clone().samples();
-        let mut new_data = Vec::with_capacity(data.len() / 2);
-        let mut new_index = 0usize;
-        let mut i = 0f32;
-        while new_index < data.len() {
-            new_data.push(data[new_index]);
-            i = i + 1.0;
-            new_index = new_index + i.powf(self.factor).floor() as usize;
+        let mut new_data = Vec::with_capacity(data.len());
+        let mut index = 0f32;
+        while (index.floor() as usize) < data.len() {
+            new_data.push(data[index.floor() as usize]);
+            index += 1.0 + index * self.factor;
         }
 
         Signal::with(signal, new_data)
