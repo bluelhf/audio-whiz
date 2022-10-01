@@ -337,8 +337,8 @@ impl ProcessingStep for Supersample {
             for j in 1..self.factor {
                 output.push((self.interpolation)(from, to, j as f32 / self.factor as f32));
             }
-            output.push(to);
         }
+        output.push(data[data.len() - 1]);
         return Signal::with(signal.clone(), output);
     }
 }
