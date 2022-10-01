@@ -35,11 +35,9 @@ impl Signal {
 
         let mut data = Vec::with_capacity(max);
         for i in 0..max {
-            if (from_data[i] + (to_data[i] - from_data[i]) * time).is_nan() {
-                data.push(0.0);
-            } else {
-                data.push(from_data[i] + (to_data[i] - from_data[i]) * time);
-            }
+            let a = if from_data[i].is_finite() { from_data[i] } else { 0.0 };
+            let b = if to_data[i].is_finite() { to_data[i] } else { 0.0 };
+            data.push(a + (b - a) * time);
         }
         return Signal::with(to, data);
     }
@@ -398,10 +396,13 @@ impl ProcessingStep for Squish {
 
     fn process(&self, signal: Signal) -> Signal {
         let data = signal.clone().samples();
-        let mut new_data = Vec::with_capacity((data.len() as f32).powf(self.factor).floor() as usize);
-        for i in 0..data.len() {
-            let new_index = (i as f32).powf(self.factor).floor() as usize;
+        let mut new_data = Vec::with_capacity(data.len() / 2);
+        let mut new_index = 0usize;
+        let mut i = 0f32;
+        while new_index < data.len() {
             new_data.push(data[new_index]);
+            i = i + 1.0;
+            new_index = new_index + i.powf(self.factor).floor() as usize;
         }
 
         Signal::with(signal, new_data)
