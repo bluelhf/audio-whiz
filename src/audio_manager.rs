@@ -105,7 +105,7 @@ pub struct FourierTask {
 }
 
 impl FourierTask {
-    const SIZE: usize = 2048;
+    const SIZE: usize = 4096;
     fn new() -> FourierTask {
         FourierTask {
             signal: Arc::new(Mutex::new(Signal::new(44100))),
@@ -130,8 +130,9 @@ impl FourierTask {
             Pad::to_size(FourierTask::SIZE),
             FFT::with_buffer_size(FourierTask::SIZE),
             Demangle::new(),
-            LimitFrequencyRange::to(20.0..15000.0),
-            Supersample::with_cosine_interpolation(16),
+            LimitFrequencyRange::to(20.0..15500.0),
+            Squish::by(0.03),
+            Supersample::with_cosine_interpolation(32),
             ToDBFS::new()
         ]) {
             Ok(signal) => {
