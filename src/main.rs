@@ -38,11 +38,15 @@ fn view(_app: &App, _model: &Model, frame: Frame) {
     
     let samples = lock.output.lock().expect("failed to lock output signal").samples();
 
+    let max = samples.clone().into_iter()
+            .max_by(|a, b| a.partial_cmp(b).unwrap_or(Equal))
+            .unwrap_or(0.0);
+
     let (width, height) = frame.rect().w_h();
     let bar_width = width / samples.len() as f32;
     for i in 0..samples.len() {
         let value = samples[i];
-        let bar_height = (value + 100.0) / 100.0 * (height - 10.0) + 10.0;
+        let bar_height = (value + 100.0) / (max + 100.0) * (height - 10.0) + 10.0;
         if !bar_height.is_finite() {
             continue;
         }
