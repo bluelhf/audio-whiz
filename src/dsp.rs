@@ -358,6 +358,10 @@ impl LimitFrequencyRange {
 }
 
 impl ProcessingStep for LimitFrequencyRange {
+    fn friendly_name(&self) -> String {
+        "Limit Frequency Range".to_string()
+    }
+
     fn is_valid_input(&self, _signal: Signal) -> bool {
         _signal.has_flag(SignalFlag::FrequencyDomain)
     }
