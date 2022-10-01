@@ -20,7 +20,7 @@ struct Model {
 
 fn model(_app: &App) -> Model {
     let manager = AudioManager::new();
-    manager.play(audrey::read::open(Path::new("./music/hotel_california.ogg"))
+    manager.play(audrey::read::open(Path::new("./music/hotel_california.wav"))
             .expect("failed to read audio")).expect("failed to play audio");
     Model { manager }
 }
