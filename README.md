@@ -18,11 +18,6 @@ A Rust-built music visualiser, built as an exercise to practice both the Rust pr
 > Subsampling and supersampling can be used together to smooth the output signal while retaining scale. Additionally, the Supersample step provides
 > cosine interpolation by default (via `Supersample::with_cosine_interpolation(...)`)
 
-|Visualiser Feature|Description|
-|---|---|
-|thrown together at immense speed|built in 10 minutes|
-|works|unless no sound is playing|
-
 # Usage
 Prepare for some fun and exciting platform-specific setup!
 
