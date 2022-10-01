@@ -105,6 +105,7 @@ pub struct FourierTask {
 }
 
 impl FourierTask {
+    const SIZE: usize = 2048;
     fn new() -> FourierTask {
         FourierTask {
             signal: Arc::new(Mutex::new(Signal::new(44100))),
@@ -117,7 +118,7 @@ impl FourierTask {
         *locked_signal = Signal::resample(&locked_signal, buffer.sample_rate());
 
         locked_signal.push(buffer);
-        locked_signal.truncate(1024);
+        locked_signal.truncate(FourierTask::SIZE);
     }
 
     pub fn compute(&self) {
@@ -126,13 +127,11 @@ impl FourierTask {
 
         match locked_signal.process_all(vec![
             HannWindow::new(),
-            Pad::to_size(1024),
-            FFT::with_buffer_size(1024),
+            Pad::to_size(FourierTask::SIZE),
+            FFT::with_buffer_size(FourierTask::SIZE),
             Demangle::new(),
-            LimitFrequencyRange::to(20.0..18000.0),
-            Squish::by(0.9),
-            Subsample::with_factor(4),
-            Supersample::with_cosine_interpolation(2),
+            LimitFrequencyRange::to(20.0..15000.0),
+            Supersample::with_cosine_interpolation(16),
             ToDBFS::new()
         ]) {
             Ok(signal) => {
