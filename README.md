@@ -25,7 +25,7 @@ Prepare for some fun and exciting platform-specific setup!
 2. Either
     - Download **and extract** the sources from GitHub (with the `Code > Download ZIP` button at the top right), or
     - Clone the repository with [Git's](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) `git clone https://github.com/bluelhf/audio-whiz` command
-3. Navigate to the project directory (folder) n the terminal, and run it with the `cargo run --release` command.
+3. Navigate to the project directory (folder) in the terminal, and run it with the `cargo run --release` command.
 4. You are done! Enjoy the visualisation!
 > **Note**  
 > Because the project's dependencies are gigantic (about half the average `node_modules` directory), it's recommended to use a
