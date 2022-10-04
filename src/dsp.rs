@@ -160,10 +160,10 @@ impl ProcessingStep for HannWindow {
         let mut windowed_samples = Vec::with_capacity(samples.len());
         let samples_len_f32 = samples.len() as f32;
         for (i, sample) in samples.iter().enumerate() {
-            let two_pi_i = 2.0 * PI * i as f32;
-            let idontknowthename = (two_pi_i / samples_len_f32).cos();
-            let multiplier = 0.5 * (1.0 - idontknowthename);
-            windowed_samples.push(multiplier * sample)
+            let theta = 2.0 * PI * i as f32;
+            let term = (theta / samples_len_f32).cos();
+            let total = 0.5 * (1.0 - term);
+            windowed_samples.push(total * sample)
         }
         Signal::with(signal, windowed_samples)
     }
