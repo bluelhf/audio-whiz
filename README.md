@@ -43,5 +43,5 @@ You can change the song by changing the path in the `model(...)` function in `sr
  }
 ```
 > **Note**  
-> Due to strange sample rate issues, **only wAV files are supported.**
+> Due to strange sample rate issues, **only .WAV files are supported.**
 [^1]: Archived from [the original](https://guide.nannou.cc/getting_started/platform-specific_setup.html) at 2022-05-20T17:36:32Z
