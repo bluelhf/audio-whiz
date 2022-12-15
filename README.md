@@ -43,6 +43,5 @@ You can change the song by changing the path in the `model(...)` function in `sr
  }
 ```
 > **Note**  
-> Supported audio formats are limited. They are listed in the [`audrey` library's README](https://web.archive.org/web/20220614094422/https://github.com/RustAudio/audrey#supported-formats).[^2]
+> Due to strange sample rate issues, **only wAV files are supported.**
 [^1]: Archived from [the original](https://guide.nannou.cc/getting_started/platform-specific_setup.html) at 2022-05-20T17:36:32Z
-[^2]: Archived from [the original](https://github.com/RustAudio/audrey#supported-formats) at 2022-06-14T09:44:22Z
