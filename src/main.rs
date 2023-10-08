@@ -65,10 +65,7 @@ fn model(app: &App) -> Model {
     let texture = build_texture(app.main_window().device(), win.wh());
 
     //<editor-fold desc="find output device" defaultstate="collapsed">
-    let device = cpal::default_host()
-        .output_devices().expect("cannot enumerate devices")
-        .filter(|x| x.name().map(|name| name == "pipewire").unwrap_or(false))
-        .next().expect("pipewire alsa device not found");
+    let device = cpal::default_host().default_output_device().expect("default alsa device not found");
     //</editor-fold>
 
     let (_stream, stream_handle) = OutputStream::try_from_device(&device).unwrap();
