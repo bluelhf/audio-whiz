@@ -6,7 +6,16 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+image = "0.24.7"
+imageproc = "0.23.0"
+itertools = "0.11.0"
 nannou = "0.18.1"
-nannou_audio = "0.18.0"
-audrey = "0.3.0"
-rustfft = "6.0.1"
+realfft = "3.3.0"
+# FIXME(ilari): switch to 0.17.2 once it releases
+#               in 0.17.1, the symphonia decoder panics when the stream ends
+#               0.17.2 fixes it but it hasn't released yet (in 7 months)
+#               we use a git dependency for the time being
+rodio = { git = "https://github.com/RustAudio/rodio.git" }
+rustfft = "6.1.0"
+rusttype = "0.9.3"
+once_cell = { version = "1.15.0", features = [] }
