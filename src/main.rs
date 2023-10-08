@@ -7,11 +7,9 @@ mod numtools;
 mod fft;
 
 use std::any::Any;
-use std::collections::VecDeque;
 use std::fs::File;
 use std::io::BufReader;
 use std::path::PathBuf;
-use std::sync::{Arc, RwLock};
 use std::time::Duration;
 use imageproc::drawing::{draw_antialiased_line_segment_mut, draw_text_mut};
 use image::{Rgba, RgbaImage};
@@ -24,9 +22,9 @@ use nannou::winit::event::VirtualKeyCode;
 use once_cell::sync;
 use realfft::RealFftPlanner;
 use rodio::{cpal, Decoder, DeviceTrait, OutputStream, Sink, Source};
-use rodio::cpal::traits::{HostTrait, StreamTrait};
+use rodio::cpal::traits::HostTrait;
 use rusttype::{Font, Scale};
-use crate::audio::introspect::{introspect, Introspectable};
+use crate::audio::introspect::{introspect, introspect_device, Introspectable};
 use crate::fft::fft::{FrequencySpectrum, Hertz, TryIntoFrequencySpectrum};
 use crate::numtools::{lerp, lerp_index_fn, to_dbfs};
 
@@ -126,38 +124,16 @@ fn init_device(model: &mut Model) -> Option<()> {
         return None;
     }
 
-    if let Ok(input_config) = device.default_input_config() && model.is_input {
-        let buffer = Arc::new(vec![RwLock::new(VecDeque::new())]);
+    if model.is_input {
+        let (introspect, introspected_stream) = introspect_device(
+            model.device.as_ref(), Duration::from_secs(1)).ok()?;
+        model.introspect = introspect;
+        model.sink = None;
 
-        let config = input_config.config();
-        let introspect = Introspectable::new(buffer.clone(), config.sample_rate.0, config.sample_rate.0 as usize);
-
-        let stream = device.build_input_stream(&config, move |data: &[f32], _| {
-            if let Ok(mut writer) = buffer[0].write() {
-                for value in data {
-                    writer.push_front(value.clone());
-                    if writer.len() > config.sample_rate.0 as usize {
-                        writer.pop_back();
-                    }
-                }
-            }
-        }, |error| {
-            dbg!(&error);
-        }, None).ok();
-
-        return if let Some(stream) = stream {
-            let _ = stream.play();
-            model.introspect = introspect;
-            model.sink = None;
-
-            model._stream = Some(Box::new(stream));
+        model._stream = Some(Box::new(introspected_stream));
 
 
-            Some(())
-        } else {
-            eprintln!("faulty device");
-            None
-        }
+        Some(())
     } else if !model.is_input {
         match OutputStream::try_from_device(device) {
             Ok((stream, stream_handle)) => {
